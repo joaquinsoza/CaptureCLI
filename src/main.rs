@@ -78,24 +78,28 @@ fn main() {
             _ => unreachable!("Exhaustive match of subcommands"),
         }
     } else {
+        // Adjusted to handle multiple command arguments
         let script_name = matches.get_one::<String>("script").map_or("default", String::as_str);
-        let command = matches.get_one::<String>("command").expect("Expected a command");
-
-        let file_path = create_new_script_file(script_name, &home_dir);
-        append_command_to_script(&file_path, command);
-
-        // Execute the command
-        let status = ProcessCommand::new("sh")
-            .arg("-c")
-            .arg(command)
-            .status() // Use .status() instead of .output()
-            .expect("Failed to execute command");
-
-        if !status.success() {
-            eprintln!("Command failed to execute properly");
-        }
-
-        println!("Command executed and captured: {}", command);
+        
+        // Assuming 'command' now correctly handles multiple values due to .num_args(1..)
+        if let Some(command_values) = matches.get_many::<String>("command") {
+            let command_to_run = command_values.map(|s| s.as_str()).collect::<Vec<&str>>().join(" ");
+            let file_path = create_new_script_file(script_name, &home_dir);
+            append_command_to_script(&file_path, &command_to_run);
+        
+            // Execute the command
+            let status = ProcessCommand::new("sh")
+                .arg("-c")
+                .arg(&command_to_run)
+                .status() // Use .status() instead of .output()
+                .expect("Failed to execute command");
+        
+            if !status.success() {
+                eprintln!("Command failed to execute properly");
+            }
+        
+            println!("Command executed and captured: {}", command_to_run);
+        }        
     }
 }
 
