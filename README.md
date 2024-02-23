@@ -1,3 +1,4 @@
+![CaptureCLI](https://github.com/joaquinsoza/CaptureCLI/assets/34905663/19567452-b226-41a7-b8fd-fc4c79b5344c)
 # CaptureCLI
 
 CaptureCLI is a command-line tool designed to streamline the process of capturing and automating shell commands. It allows users to easily save commands executed in the shell into script files for later use, making it an invaluable tool for setting up new environments, automating repetitive tasks, and documenting command sequences. Whether you're installing software, configuring settings, or running diagnostics, CaptureCLI simplifies the process by capturing your commands in an executable script.
